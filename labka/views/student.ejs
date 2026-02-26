@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title><%= monkey.name %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+<div class="profile-card">
+    <video autoplay loop muted playsinline class="monkey-video">
+        <source src="<%= monkey.video %>" type="video/webm">
+        Ваш браузер не підтримує відео.
+    </video>
+
+    <h1><%= monkey.name %></h1>
+    <div class="monkey-rank"><%= monkey.rank %></div>
+    <p><%= monkey.bio %></p>
+
+    <hr>
+    <a href="/" class="btn-back">← Назад до зграї</a>
+</div>
+</body>
+</html>

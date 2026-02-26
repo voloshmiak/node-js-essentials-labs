@@ -1,0 +1,99 @@
+/* Основні кольори: Темний ліс та м'який банан */
+:root {
+  --bg-color: #121b12;       /* Дуже темний зелений */
+  --card-bg: #1e2a1e;       /* Трохи світліший для карток */
+  --text-main: #e0eadd;     /* М'який білувато-зелений (не ріже око) */
+  --accent-color: #ffcc33;  /* Приглушений жовтий */
+  --link-color: #82ccdd;    /* Спокійний блакитний для посилань */
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  color: var(--accent-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+}
+
+/* Сітка карток */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 20px;
+}
+
+/* Картки (і на головній, і в профілі) */
+.card, .profile-card {
+  background: var(--card-bg);
+  padding: 25px;
+  border-radius: 15px;
+  border-left: 5px solid var(--accent-color);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Посилання */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+/* Спеціальна кнопка-посилання */
+.btn-back {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color) !important;
+  border-radius: 8px;
+}
+
+.btn-back:hover {
+  background: var(--accent-color);
+  color: var(--bg-color) !important;
+  text-decoration: none;
+}
+
+.monkey-video {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 15px;
+  border: 3px solid var(--accent-color);
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.main-img {
+  width: 100%;
+  max-width: 200px;
+  border-radius: 20px;
+  border: 4px solid var(--accent-color);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+  margin: 20px 0;
+}
