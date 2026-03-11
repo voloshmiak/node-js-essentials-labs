@@ -1,0 +1,10 @@
+<div class="topbar">
+    <div>
+        <div class="eyebrow"><%= appTitle %></div>
+        <div class="headline"><%= heading %></div>
+    </div>
+
+    <% if (currentUser) { %>
+        <div class="user-badge"><%= currentUser.name %></div>
+    <% } %>
+</div>

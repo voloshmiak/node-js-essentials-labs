@@ -1,0 +1,15 @@
+<%- include('partials/head', { pageTitle: pageTitle }) %>
+
+<div class="app-shell">
+    <div class="phone-shell">
+        <%- include('partials/header', { heading: 'Помилка', currentUser: currentUser }) %>
+
+        <section class="panel">
+            <div class="alert error"><%= message %></div>
+            <a href="/" class="btn btn-primary btn-block">На головну</a>
+        </section>
+    </div>
+</div>
+
+</body>
+</html>

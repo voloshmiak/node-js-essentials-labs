@@ -1,0 +1,124 @@
+<%- include('partials/head', { pageTitle: pageTitle }) %>
+
+<div class="app-shell">
+    <div class="phone-shell">
+        <div class="back-row">
+            <a href="/queues?user=<%= currentUser.id %>" class="back-link">← До списку черг</a>
+        </div>
+
+        <%- include('partials/header', { heading: queue.title, currentUser: currentUser }) %>
+
+        <section class="panel">
+            <div class="queue-summary">
+                <div>
+                    <div class="label-muted">Хазяїн</div>
+                    <strong><%= queue.ownerName %></strong>
+                </div>
+
+                <span class="status <%= queue.isOpen ? 'status-open' : 'status-closed' %>">
+          <%= queue.isOpen ? 'Відкрита' : 'Закрита' %>
+        </span>
+            </div>
+
+            <div class="section-title">Перемикання користувача</div>
+            <div class="chips">
+                <% users.forEach((user) => { %>
+                    <a
+                            href="/queues/<%= queue.id %>?user=<%= user.id %>"
+                            class="chip <%= currentUser.id === user.id ? 'chip-active' : '' %>"
+                    >
+                        <%= user.name %>
+                    </a>
+                <% }) %>
+            </div>
+
+            <% if (message) { %>
+                <div class="alert success"><%= message %></div>
+            <% } %>
+
+            <% if (error) { %>
+                <div class="alert error"><%= error %></div>
+            <% } %>
+
+            <% if (currentUserPlace) { %>
+                <div class="circle-card">
+                    <div class="circle">
+                        <span><%= currentUserPlace.number %></span>
+                    </div>
+
+                    <div class="place-info">
+                        <div class="section-title center">Ваш номер у черзі</div>
+                        <div class="muted center">
+                            Перед вами людей: <strong><%= currentUserPlace.peopleAhead %></strong>
+                        </div>
+                    </div>
+
+                    <% if (canLeave) { %>
+                        <form action="/queues/<%= queue.id %>/leave" method="POST" class="top-gap">
+                            <input type="hidden" name="currentUserId" value="<%= currentUser.id %>" />
+                            <button class="btn btn-light btn-block" type="submit">Вийти з черги</button>
+                        </form>
+                    <% } %>
+                </div>
+            <% } else { %>
+                <div class="empty-state compact">Ви ще не зайняли місце у цій черзі.</div>
+            <% } %>
+
+            <% if (canJoin) { %>
+                <form action="/queues/<%= queue.id %>/join" method="POST" class="top-gap">
+                    <input type="hidden" name="currentUserId" value="<%= currentUser.id %>" />
+                    <button class="btn btn-primary btn-block" type="submit">Зайняти місце</button>
+                </form>
+            <% } %>
+
+            <% if (isOwner) { %>
+                <div class="owner-actions">
+                    <form action="/queues/<%= queue.id %>/next" method="POST" class="inline-form">
+                        <input type="hidden" name="currentUserId" value="<%= currentUser.id %>" />
+                        <button class="btn btn-primary" type="submit">Наступний</button>
+                    </form>
+
+                    <% if (queue.isOpen) { %>
+                        <form action="/queues/<%= queue.id %>/close" method="POST" class="inline-form">
+                            <input type="hidden" name="currentUserId" value="<%= currentUser.id %>" />
+                            <button class="btn btn-ghost" type="submit">Закрити чергу</button>
+                        </form>
+                    <% } else { %>
+                        <form action="/queues/<%= queue.id %>/open" method="POST" class="inline-form">
+                            <input type="hidden" name="currentUserId" value="<%= currentUser.id %>" />
+                            <button class="btn btn-ghost" type="submit">Відкрити чергу</button>
+                        </form>
+                    <% } %>
+                </div>
+            <% } %>
+        </section>
+
+        <section class="list-section">
+            <div class="section-title">Список черги</div>
+
+            <% if (!entries.length) { %>
+                <div class="empty-state">Черга порожня.</div>
+            <% } %>
+
+            <% entries.forEach((entry) => { %>
+                <div class="entry-row <%= entry.isCurrentUser ? 'entry-row-current' : '' %>">
+                    <div>
+                        <div class="entry-main">#<%= entry.position %> — <%= entry.userName %></div>
+                        <div class="muted small">ID користувача: <%= entry.userId %></div>
+                    </div>
+
+                    <% if (isOwner) { %>
+                        <form action="/queues/<%= queue.id %>/remove" method="POST">
+                            <input type="hidden" name="currentUserId" value="<%= currentUser.id %>" />
+                            <input type="hidden" name="targetUserId" value="<%= entry.userId %>" />
+                            <button class="icon-btn" type="submit">×</button>
+                        </form>
+                    <% } %>
+                </div>
+            <% }) %>
+        </section>
+    </div>
+</div>
+
+</body>
+</html>

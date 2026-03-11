@@ -1,0 +1,81 @@
+<%- include('partials/head', { pageTitle: pageTitle }) %>
+
+<div class="app-shell">
+    <div class="phone-shell">
+        <%- include('partials/header', { heading: 'Електронна черга', currentUser: currentUser }) %>
+
+        <section class="panel">
+            <div class="section-title">Активний користувач</div>
+
+            <div class="chips">
+                <% users.forEach((user) => { %>
+                    <a
+                            href="/queues?user=<%= user.id %>"
+                            class="chip <%= currentUser.id === user.id ? 'chip-active' : '' %>"
+                    >
+                        <%= user.name %>
+                    </a>
+                <% }) %>
+            </div>
+
+            <% if (message) { %>
+                <div class="alert success"><%= message %></div>
+            <% } %>
+
+            <% if (error) { %>
+                <div class="alert error"><%= error %></div>
+            <% } %>
+        </section>
+
+        <section class="panel">
+            <form action="/queues" method="POST" class="stack">
+                <input type="hidden" name="currentUserId" value="<%= currentUser.id %>" />
+
+                <label class="label" for="title">Створити власну чергу</label>
+                <input
+                        id="title"
+                        class="input"
+                        type="text"
+                        name="title"
+                        maxlength="50"
+                        placeholder="Наприклад: Черга в кабінет 101"
+                        required
+                />
+
+                <button class="btn btn-primary" type="submit">Створити чергу</button>
+            </form>
+        </section>
+
+        <section class="list-section">
+            <div class="section-title">Доступні черги</div>
+
+            <% if (!queues.length) { %>
+                <div class="empty-state">Поки що черг немає.</div>
+            <% } %>
+
+            <% queues.forEach((queue) => { %>
+                <a href="/queues/<%= queue.id %>?user=<%= currentUser.id %>" class="queue-card">
+                    <div class="queue-card-top">
+                        <h2><%= queue.title %></h2>
+                        <span class="status <%= queue.isOpen ? 'status-open' : 'status-closed' %>">
+              <%= queue.isOpen ? 'Відкрита' : 'Закрита' %>
+            </span>
+                    </div>
+
+                    <div class="muted">Хазяїн: <%= queue.ownerName %></div>
+
+                    <div class="meta-row">
+                        <span><%= queue.totalPeople %> у черзі</span>
+
+                        <% if (queue.currentUserInside) { %>
+                            <span class="mini-pill">Ви вже всередині</span>
+                        <% } %>
+                    </div>
+                </a>
+            <% }) %>
+        </section>
+    </div>
+</div>
+
+</body>
+</html>
