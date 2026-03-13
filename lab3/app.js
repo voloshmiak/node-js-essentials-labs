@@ -18,7 +18,7 @@ async function startApplication() {
 
     const userRepository = new UserRepository(store);
     const queueRepository = new QueueRepository(store);
-    const queueEntryRepository = new QueueEntryRepository(store);C
+    const queueEntryRepository = new QueueEntryRepository(store);
 
     const queueService = new QueueService({
         userRepository,
