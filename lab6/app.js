@@ -5,6 +5,9 @@ const UserRepository = require('./src/repositories/userRepository');
 const QueueRepository = require('./src/repositories/queueRepository');
 const QueueEntryRepository = require('./src/repositories/queueEntryRepository');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./src/swagger');
+
 const QueueService = require('./src/services/queueService');
 const QueueController = require('./src/controllers/queueController');
 const ApiController = require('./src/controllers/apiController');
@@ -38,6 +41,7 @@ async function startApplication() {
 
     app.locals.appTitle = 'Електронна черга';
 
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     app.use('/api', createApiRouter(apiController));
     app.use('/', createWebRouter(queueController));
 
